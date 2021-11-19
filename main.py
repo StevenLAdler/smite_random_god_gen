@@ -14,6 +14,7 @@ class GodPicker():
         gods = [god for god in soup.find_all("tr")[1:]]
         god_details = []
 
+        #bs wasnt doing what I wanted so I made this monster
         for god in gods:
             try:
                 god_details.append(tuple([str(god.findChildren(recursive=False)[i]).split("title=")[1].split('"')[1] for i in range (1,6)]))
@@ -51,10 +52,8 @@ class GodPicker():
         if self.verbose:
             print("Attributes:")
             [print(attr) for attr in self.attr]
-            print("Enter a comma seperated list of attributes to randomize on, blank for random god")
-            options = input("ex: Greek, Melee\n")
-        else:
-            options = input("Enter comma seperated list of attributes, blank for random god\n")
+        options = input("Enter comma seperated list of attributes to randomize on, blank for all gods\n")
+        
         if options != '':
             self.options  = [option.strip().capitalize() for option in options.split(',')]
         else:
