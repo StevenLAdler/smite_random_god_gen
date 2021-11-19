@@ -4,6 +4,9 @@ from random import choice
 
 class GodPicker():
 
+    def __init__(self, verbose=True):
+        self.verbose = verbose
+
     def get_god_details(self):
         URL = "https://smite.fandom.com/wiki/List_of_gods"
         r = requests.get(URL)
@@ -12,7 +15,6 @@ class GodPicker():
         god_details = []
 
         for god in gods:
-            # print(god)
             try:
                 god_details.append(tuple([str(god.findChildren(recursive=False)[i]).split("title=")[1].split('"')[1] for i in range (1,6)]))
             except(IndexError):
@@ -46,10 +48,13 @@ class GodPicker():
         self.attr = attr
 
     def get_query(self):
-        print("Attributes:")
-        [print(attr) for attr in self.attr]
-        print("Enter a comma seperated list of attributes to randomize on, blank for random god")
-        options = input("ex: Greek, Melee\n")
+        if self.verbose:
+            print("Attributes:")
+            [print(attr) for attr in self.attr]
+            print("Enter a comma seperated list of attributes to randomize on, blank for random god")
+            options = input("ex: Greek, Melee\n")
+        else:
+            options = input("Enter comma seperated list of attributes, blank for random god\n")
         if options != '':
             self.options  = [option.strip().capitalize() for option in options.split(',')]
         else:
@@ -74,7 +79,7 @@ class GodPicker():
             
 
 if __name__ == "__main__":
-    gp = GodPicker()
+    gp = GodPicker(verbose=True)
     gp.get_god_details()
     gp.sort_cat_data()
     gp.get_attr()
